@@ -2,7 +2,7 @@ package com.qizhi.socket.constants;
 
 public enum HttpUrlEnum {
 	
-	PG_HTTP_URL("http://192.168.2.221:8080/track-admin/upstream/pg",""),
+	PG_HTTP_URL("http://localhost:8080/tracker-admin/upstream/pg",""),
 	PL_HTTP_URL("",""),
 	PC_HTTP_URL("",""),
 	;

@@ -54,12 +54,12 @@ public class PGManage {
    
    private PGReqDto buildPGReqDto(PGPacketDto pgPacketDto){
 	   PGReqDto pgReqDto = new PGReqDto();
-	   pgReqDto.setPgImei(pgPacketDto.getImei());
-	   pgReqDto.setPgLongitude(pgPacketDto.getLng());
-	   pgReqDto.setPgLatitude(pgPacketDto.getLat());
-	   pgReqDto.setPgHight(pgPacketDto.getHight());
-	   pgReqDto.setPgSpeed(pgPacketDto.getSpeed());
-	   pgReqDto.setPgStar(pgPacketDto.getStar());
+	   pgReqDto.setImei(pgPacketDto.getImei());
+	   pgReqDto.setLng(pgPacketDto.getLng());
+	   pgReqDto.setLat(pgPacketDto.getLat());
+	   pgReqDto.setHight(pgPacketDto.getHight());
+	   pgReqDto.setSpeed(pgPacketDto.getSpeed());
+	   pgReqDto.setStar(pgPacketDto.getStar());
 	   
 	   return pgReqDto;
    }
