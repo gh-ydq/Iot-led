@@ -27,8 +27,8 @@ public class ParsePGPackageService extends ParsePackageServiceImpl{
 		GPRSSubStatus pgSubStatus = buildPGSubStatus(status);
 		PGPacketDto pgPacketDto = buildPGPacketDto(bytes.length,header0, header1, imei, lng, lat, hight, speed, status, star,time, pgSubStatus);
 		PGManage pgManage = new PGManage();
-//		pgManage.savePGInfo(pgPacketDto);
-//		pgManage.sendMsg(pgPacketDto);
+		pgManage.savePGInfo(pgPacketDto);
+		pgManage.sendMsg(pgPacketDto);
 		return pgPacketDto;
 	}
 	

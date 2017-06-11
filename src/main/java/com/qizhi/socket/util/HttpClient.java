@@ -30,13 +30,13 @@ public class HttpClient {
 	        logger.info("http 请求response status ={}",response2.getStatusLine());
 	        HttpEntity entity2 = response2.getEntity();
 	        //消耗掉response
-//	        if (response2 != null) {
-//				String responseBody = EntityUtils.toString(response2.getEntity(), "UTF-8");
-//				System.out.println(responseBody.toString());
-//			}
+	        if (response2 != null) {
+				String responseBody = EntityUtils.toString(response2.getEntity(), "UTF-8");
+				System.out.println(responseBody.toString());
+			}
 	        EntityUtils.consume(entity2);
 	    } catch(Exception e){
-		
+	    	logger.info("发送http请求异常",e);
 	    }finally {
 	    	
 	    }
