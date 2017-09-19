@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.qizhi.socket.constants.BikeStatusEnum;
+import com.qizhi.socket.constants.HttpUrlEnum;
 import com.qizhi.socket.dto.gprs.pg.PGPacketDto;
 import com.qizhi.socket.dto.http.req.gprs.PGReqDto;
 import com.qizhi.socket.exception.IotServiceBizException;
@@ -18,13 +19,10 @@ import com.qizhi.socket.util.RedisUtil;
 
 public class PGManage {
    private Logger logger = LoggerFactory.getLogger(PGManage.class);
-   private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/GPS";
-//	private static final String url = "http://192.168.0.101/v1.0/bikeProtocol/GPS";
-   
    public void sendMsg(PGPacketDto pgPacketDto){
 	   try {
 		   PGReqDto pgReqDto = buildPGReqDto(pgPacketDto);
-		   HttpClient.sendMsg(url, pgReqDto);
+		   HttpClient.sendMsg(HttpUrlEnum.PG_HTTP_URL.getUrl(), pgReqDto);
 		} catch (Exception e) {
 			logger.error("发送上行PG包http请求异常 header0:"+pgPacketDto.getHeader0()+",header1:"+pgPacketDto.getHeader1()+",imei:"+pgPacketDto.getImei(),e);
 			throw new IotServiceBizException(IotServiceExceptionEnum.SEND_UP_PG_HTTP_ERROR.getCode(),IotServiceExceptionEnum.SEND_UP_PG_HTTP_ERROR.getMsg());
@@ -56,12 +54,12 @@ public class PGManage {
    
    private PGReqDto buildPGReqDto(PGPacketDto pgPacketDto){
 	   PGReqDto pgReqDto = new PGReqDto();
-	   pgReqDto.setPgImei(pgPacketDto.getImei());
-	   pgReqDto.setPgLongitude(pgPacketDto.getLng());
-	   pgReqDto.setPgLatitude(pgPacketDto.getLat());
-	   pgReqDto.setPgHight(pgPacketDto.getHight());
-	   pgReqDto.setPgSpeed(pgPacketDto.getSpeed());
-	   pgReqDto.setPgStar(pgPacketDto.getStar());
+	   pgReqDto.setImei(pgPacketDto.getImei());
+	   pgReqDto.setLng(pgPacketDto.getLng());
+	   pgReqDto.setLat(pgPacketDto.getLat());
+	   pgReqDto.setHight(pgPacketDto.getHight());
+	   pgReqDto.setSpeed(pgPacketDto.getSpeed());
+	   pgReqDto.setStar(pgPacketDto.getStar());
 	   
 	   return pgReqDto;
    }
