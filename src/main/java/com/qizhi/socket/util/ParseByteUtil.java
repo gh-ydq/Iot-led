@@ -22,7 +22,7 @@ public class ParseByteUtil {
 		logger.info("header0:"+header0+",header1:"+header1+",imei:"+imei+",length:"+bytes.length);
 		String imeiKey = imei+"";
 		// PX 包为自定义下行包
-		if('M' == header1){
+		if('T' == header1){
 			// 保存下行socket链接关系
 			SocketChannelMap.downConcurrentMap.put(imeiKey, ctx);
 			//发送下行命令包
@@ -57,10 +57,10 @@ public class ParseByteUtil {
 			}
 		}
 		ParsePackageServiceImpl parsePackageService = ParsePackageServiceFactory.getParsePackageService(header0, header1);
-		if(parsePackageService != null && 'M' != header1){
+		if(parsePackageService != null && 'T' != header1){
 			parsePackageService.parseUpBytes(bytes, header0, header1,imei);	
 		}
-		if(parsePackageService != null && 'M' == header1){
+		if(parsePackageService != null && 'T' == header1){
 			parsePackageService.parseDownBytes(bytes, header0, header1, imei);
 		}
 		return bytes;

@@ -23,7 +23,7 @@ public class ParsePackageServiceFactory {
 			parsePackageService = new ParsePHPackageService();
 		}else if('P' == header0 && 'C' == header1){
 			parsePackageService = new ParsePCPackageService();
-		}else if('P' == header0 && 'M' == header1){
+		}else if('P' == header0 && 'T' == header1){
 			parsePackageService = new ParsePCPackageService();
 		}else if('M' == header0 && 'D' == header1){
 			parsePackageService = new ParseMDPackageService();
