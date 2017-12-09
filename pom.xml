@@ -72,7 +72,7 @@
     </descriptorRefs>  
   <archive>  
     <manifest>
-         <mainClass>com.qizhi.socket.SocketServer</mainClass>
+         <mainClass>com.minxing.socket.SocketServer</mainClass>
          <addClasspath>true</addClasspath>
      <classpathPrefix>lib/</classpathPrefix>
      </manifest>
