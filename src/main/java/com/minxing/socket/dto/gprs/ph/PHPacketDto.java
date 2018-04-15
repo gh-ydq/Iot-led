@@ -4,7 +4,7 @@ import com.minxing.socket.dto.gprs.GPRSSubStatus;
 import com.minxing.socket.dto.DatagramPacketBasicDto;
 
 /**
- * PH ���Ӧ�Ĳ���
+ * PH Led 数据心跳包
  * @author yudengqiu
  *
  */

@@ -9,6 +9,7 @@ package com.minxing.socket.util;
 public class ByteArrayToNumber {
 	
 	public static char byteToChar(byte pgByte) {
+
         char pgChar = (char) pgByte;
         return pgChar;
     }
@@ -53,7 +54,7 @@ public class ByteArrayToNumber {
 	
 	/**
 	 * 取字节第几bit的值
-	 * @param src
+	 * @param b
 	 * @param offset 0-7
 	 * @return
 	 */
@@ -66,8 +67,7 @@ public class ByteArrayToNumber {
 	/**
 	 * 4bit表示一个16进制
 	 * 一个字节表示2个16进制
-	 * @param src
-	 * @param offset 0-7
+	 * @param b
 	 * @return
 	 */
 	public static String biteToHexString(byte b) {  
@@ -79,7 +79,7 @@ public class ByteArrayToNumber {
 	
 	/**
 	 * 字节数组转字符串
-	 * @param src
+	 * @param bytes
 	 * @return
 	 */
 	public static String bytesToString(byte[] bytes) {  

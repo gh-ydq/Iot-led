@@ -61,9 +61,6 @@ public class PHManage {
 	   phReqDto.setPhImei(phPacketDto.getImei());
 	   phReqDto.setPhImsi(phPacketDto.getImsi());
 	   phReqDto.setPhSequence(phPacketDto.getSeq());
-	   phReqDto.setPhPowerVoltage(phPacketDto.getPowerVoltage());
-	   phReqDto.setPhSentity(phPacketDto.getSensity());
-	   phReqDto.setPhStar(phPacketDto.getStar());
 	   return phReqDto;
    }
 }

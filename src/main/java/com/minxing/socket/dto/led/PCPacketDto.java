@@ -1,4 +1,4 @@
-package com.minxing.socket.dto.gprs.pc;
+package com.minxing.socket.dto.led;
 
 import com.minxing.socket.dto.DatagramPacketBasicDto;
 

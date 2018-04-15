@@ -1,6 +1,5 @@
-package com.minxing.socket.dto.gprs.ph;
+package com.minxing.socket.dto.led;
 
-import com.minxing.socket.dto.gprs.GPRSSubStatus;
 import com.minxing.socket.dto.DatagramPacketBasicDto;
 
 /**

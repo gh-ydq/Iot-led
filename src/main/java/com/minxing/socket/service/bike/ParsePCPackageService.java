@@ -43,6 +43,7 @@ public class ParsePCPackageService extends ParsePackageServiceImpl{
 	private PCPacketDto buildPCPacketDto(int bytesLength,char header0,char header1,int imei,
 			byte seq,byte cmd,String param){
 		PCPacketDto pcPacketDto = new PCPacketDto();
+		pcPacketDto.setLength(bytesLength);
 		pcPacketDto.setHeader0(header0);
 		pcPacketDto.setHeader1(header1);
 		pcPacketDto.setImei(imei);

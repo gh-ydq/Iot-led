@@ -1,13 +1,6 @@
-package com.minxing.socket.http.bike;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+package com.minxing.socket.http.led;
 
 import com.minxing.socket.constants.BikeStatusEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.minxing.socket.dto.gprs.pc.PCPacketDto;
 import com.minxing.socket.dto.http.req.gprs.PCReqDto;
 import com.minxing.socket.exception.IotServiceBizException;
@@ -15,6 +8,12 @@ import com.minxing.socket.exception.IotServiceExceptionEnum;
 import com.minxing.socket.util.DateUtil;
 import com.minxing.socket.util.HttpClient;
 import com.minxing.socket.util.RedisUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PCManage {
 	private Logger logger = LoggerFactory.getLogger(PCManage.class);
@@ -23,7 +22,7 @@ public class PCManage {
    
    public void sendMsg(PCPacketDto pcPacketDto){
 	   try {
-		   PCReqDto pcReqDto = buildPGReqDto(pcPacketDto);
+		   PCReqDto pcReqDto = buildPCReqDto(pcPacketDto);
 		   HttpClient.sendMsg(url, pcReqDto);
 		} catch (Exception e) {
 			logger.error("发送上行PC包http请求异常 header0:"+pcPacketDto.getHeader0()+",header1:"+pcPacketDto.getHeader1()+",imei:"+pcPacketDto.getImei(),e);
@@ -83,7 +82,7 @@ public class PCManage {
 	   return bikePGMap;
    }
    
-   public PCReqDto buildPGReqDto(PCPacketDto pcPacketDto){
+   public PCReqDto buildPCReqDto(PCPacketDto pcPacketDto){
 	   PCReqDto pcReqDto = new PCReqDto();
 	   pcReqDto.setPcImei(pcPacketDto.getImei());
 	   pcReqDto.setPcCmd(pcPacketDto.getCmd());
