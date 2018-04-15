@@ -13,8 +13,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PTManage {
-   private Logger logger = LoggerFactory.getLogger(PTManage.class);
+public class LedPTManage {
+   private Logger logger = LoggerFactory.getLogger(LedPTManage.class);
    private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/GPS";
 //	private static final String url = "http://192.168.0.101/v1.0/bikeProtocol/GPS";
    

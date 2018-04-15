@@ -15,8 +15,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PHManage {
-	private Logger logger = LoggerFactory.getLogger(PHManage.class);
+public class LedPHManage {
+	private Logger logger = LoggerFactory.getLogger(LedPHManage.class);
     private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/heart";
 //  private static final String url = "http://192.168.0.101/v1.0/bikeProtocol/heart";
    
