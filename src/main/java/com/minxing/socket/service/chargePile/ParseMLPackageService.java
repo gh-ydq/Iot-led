@@ -3,6 +3,7 @@ package com.minxing.socket.service.chargePile;
 
 import java.util.Date;
 
+import com.minxing.socket.dto.PackageServiceDto;
 import com.minxing.socket.dto.baseStation.ml.MLPacketDto;
 import com.minxing.socket.http.charge.MLManage;
 import com.minxing.socket.service.impl.ParsePackageServiceImpl;
@@ -14,15 +15,17 @@ import org.slf4j.LoggerFactory;
 public class ParseMLPackageService extends ParsePackageServiceImpl {
 	private Logger logger = LoggerFactory.getLogger(ParseMLPackageService.class);
 	@Override
-	public MLPacketDto parseUpBytes(byte[] bytes, char header0, char header1, int imei){
+	public MLPacketDto parseUpBytes(PackageServiceDto packageServiceDto){
 		logger.info("ML system:"+ DateUtil.format(new Date(), DateUtil.YMDHMS_PATTERN));
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		int length = bytes.length;
 		short lac = ByteArrayToNumber.byteArrayToShort(bytes, 6);
 		short cellid = ByteArrayToNumber.byteArrayToShort(bytes, 8);
 		byte signal = bytes[10];
 		byte temperature = bytes[11];
 		Long imsi = ByteArrayToNumber.bytesToLong(bytes, 12);
-		MLPacketDto mlPacketDto =  buildMLPacketDto(length, header0, header1, imei, 
+		MLPacketDto mlPacketDto =  buildMLPacketDto(length, packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(),
 				lac, cellid, signal, temperature, imsi);
 		MLManage mlManage = new MLManage();
 		mlManage.sendMsg(mlPacketDto);

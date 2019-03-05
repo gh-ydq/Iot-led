@@ -3,6 +3,7 @@ package com.minxing.socket.service.bike;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.minxing.socket.dto.PackageServiceDto;
 import com.minxing.socket.http.bike.PXManage;
 import com.minxing.socket.util.ByteArrayToNumber;
 import org.slf4j.Logger;
@@ -15,8 +16,9 @@ import com.minxing.socket.service.impl.ParsePackageServiceImpl;
 public class ParsePXPackageService extends ParsePackageServiceImpl{
 	private Logger logger = LoggerFactory.getLogger(ParsePXPackageService.class);
 	@Override
-	public  PXPacketDto parseUpBytes(byte[] bytes,char header0,char header1,int imei){
+	public  PXPacketDto parseUpBytes(PackageServiceDto packageServiceDto){
 		logger.info("开始解析PG数据包------");
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		int lng = ByteArrayToNumber.byteArrayToInt(bytes, 6);
 		int lat = ByteArrayToNumber.byteArrayToInt(bytes, 10);
 		short hight = ByteArrayToNumber.byteArrayToShort(bytes, 14);
@@ -25,7 +27,8 @@ public class ParsePXPackageService extends ParsePackageServiceImpl{
 		byte star = bytes[19];
 		int time = ByteArrayToNumber.byteArrayToInt(bytes, 20);
 		GPRSSubStatus pgSubStatus = buildPGSubStatus(status);
-		PXPacketDto pgPacketDto = buildPGPacketDto(header0, header1, imei, lng, lat, hight, speed, status, star,time, pgSubStatus);
+		PXPacketDto pgPacketDto = buildPGPacketDto(packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(), lng, lat, hight, speed, status, star,time, pgSubStatus);
 		PXManage pgManage = new PXManage();
 		pgManage.savePXInfo(pgPacketDto);
 //		pgManage.sendMsg(pgPacketDto);

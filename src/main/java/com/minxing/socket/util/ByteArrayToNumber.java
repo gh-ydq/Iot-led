@@ -86,7 +86,26 @@ public class ByteArrayToNumber {
 		String newStr = new String(bytes);
         return newStr; 
 	}
-	
+
+
+	/**
+	 * 字节数组转字符串
+	 * @param oriBytes 源字节数组
+	 * @param index 字节数组索引
+	 *         length 要复制的长度
+	 * @return
+	 */
+	public static String bytesToString(byte[] oriBytes,int index,int length) {
+		byte[] bytes = new byte[length];
+		for(int i=0;i<length;i++){
+			bytes[i] = oriBytes[index+i];
+		}
+		String newStr = new String(bytes);
+		return newStr;
+	}
+
+
+
 	/** 
 	 * 字节转换为浮点 
 	 *  

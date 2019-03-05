@@ -3,6 +3,7 @@ package com.minxing.socket.service.bike;
 
 import java.util.Date;
 
+import com.minxing.socket.dto.PackageServiceDto;
 import com.minxing.socket.dto.gprs.GPRSSubStatus;
 import com.minxing.socket.dto.gprs.pl.PLPacketDto;
 import com.minxing.socket.http.bike.PLManage;
@@ -16,15 +17,17 @@ import com.minxing.socket.service.impl.ParsePackageServiceImpl;
 public class ParsePLPackageService extends ParsePackageServiceImpl{
 	private Logger logger = LoggerFactory.getLogger(ParsePLPackageService.class);
 	@Override
-	public PLPacketDto parseUpBytes(byte[] bytes, char header0, char header1, int imei){
+	public PLPacketDto parseUpBytes(PackageServiceDto packageServiceDto){
 		logger.info("PL system:"+ DateUtil.format(new Date(), DateUtil.YMDHMS_PATTERN));
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		int lac = ByteArrayToNumber.byteArrayToInt(bytes, 6);
 		int cellid = ByteArrayToNumber.byteArrayToInt(bytes, 10);
 		short signal = ByteArrayToNumber.byteArrayToShort(bytes, 14);
 		byte status = bytes[16];
 		int time = ByteArrayToNumber.byteArrayToShort(bytes, 17);
 		GPRSSubStatus pgSubStatus = buildPLSubStatus(status);
-		PLPacketDto plPacketDto = buildPLPacketDto(bytes.length,header0, header1, imei, lac, cellid, signal,status, time,pgSubStatus);
+		PLPacketDto plPacketDto = buildPLPacketDto(bytes.length,packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(), lac, cellid, signal,status, time,pgSubStatus);
 		PLManage plManage = new PLManage();
 //		plManage.savePLInfo(plPacketDto);
 //		plManage.sendMsg(plPacketDto);

@@ -1,6 +1,7 @@
 package com.minxing.socket.service.bike;
 
 import com.minxing.socket.client.SendDownPackage;
+import com.minxing.socket.dto.PackageServiceDto;
 import com.minxing.socket.http.bike.PCManage;
 import com.minxing.socket.util.ByteArrayToNumber;
 import com.minxing.socket.util.SocketChannelMap;
@@ -15,26 +16,30 @@ import io.netty.channel.ChannelHandlerContext;
 public class ParsePCPackageService extends ParsePackageServiceImpl{
 	private Logger logger = LoggerFactory.getLogger(ParsePCPackageService.class);
 	@Override
-	public  PCPacketDto parseUpBytes(byte[] bytes,char header0,char header1,int imei){
+	public  PCPacketDto parseUpBytes(PackageServiceDto packageServiceDto){
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		byte seq = bytes[6];
 		byte cmd = bytes[7];
 		byte[] params =  new byte[bytes.length-8];
 		System.arraycopy(bytes, 8, params, 0, bytes.length-8);
 		String param = ByteArrayToNumber.bytesToString(params);
-		PCPacketDto pcPacketDto = buildPCPacketDto(bytes.length,header0, header1, imei,seq,cmd,param);
+		PCPacketDto pcPacketDto = buildPCPacketDto(bytes.length,packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(),seq,cmd,param);
 		PCManage pcManage = new PCManage();
 //		pcManage.saveUpPCInfo(pcPacketDto);
 //		pcManage.sendMsg(pcPacketDto);
 		return pcPacketDto;
 	}
 	@Override
-	public PCPacketDto parseDownBytes(byte[] bytes,char header0,char header1,int imei) {
+	public PCPacketDto parseDownBytes(PackageServiceDto packageServiceDto) {
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		byte seq = bytes[6];
 		byte cmd = bytes[7];
 		byte[] params =  new byte[bytes.length-8];
 		System.arraycopy(bytes, 8, params, 0, bytes.length-8);
 		String param = ByteArrayToNumber.bytesToString(params);
-		PCPacketDto pcPacketDto = buildPCPacketDto(bytes.length,header0, header1, imei,seq,cmd,param);
+		PCPacketDto pcPacketDto = buildPCPacketDto(bytes.length,packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(),seq,cmd,param);
 		PCManage pcManage = new PCManage();
 		pcManage.saveDownPCInfo(pcPacketDto);
 		return pcPacketDto;

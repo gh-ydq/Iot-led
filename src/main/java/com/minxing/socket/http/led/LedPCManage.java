@@ -3,6 +3,7 @@ package com.minxing.socket.http.led;
 import com.minxing.socket.constants.BikeStatusEnum;
 import com.minxing.socket.dto.gprs.pc.PCPacketDto;
 import com.minxing.socket.dto.http.req.gprs.PCReqDto;
+import com.minxing.socket.dto.led.LedPCPacketDto;
 import com.minxing.socket.exception.IotServiceBizException;
 import com.minxing.socket.exception.IotServiceExceptionEnum;
 import com.minxing.socket.util.DateUtil;
@@ -20,7 +21,7 @@ public class LedPCManage {
     private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/command";
 //	private static final String url = "http://192.168.0.101/v1.0/bikeProtocol/command";
    
-   public void sendMsg(PCPacketDto pcPacketDto){
+   public void sendMsg(LedPCPacketDto pcPacketDto){
 	   try {
 		   PCReqDto pcReqDto = buildPCReqDto(pcPacketDto);
 		   HttpClient.sendMsg(url, pcReqDto);
@@ -29,60 +30,7 @@ public class LedPCManage {
 			throw new IotServiceBizException(IotServiceExceptionEnum.SEND_UP_PC_HTTP_ERROR.getCode(),IotServiceExceptionEnum.SEND_UP_PC_HTTP_ERROR.getMsg());
 		}
    }
-   public void saveUpPCInfo(PCPacketDto pcPacketDto){
-	   try {
-		   RedisUtil redisUtil = new RedisUtil();
-		   String imei = String.valueOf(pcPacketDto.getImei());
-		   String model = imei.substring(imei.length()-1);
-		   String monitorAllBikeKey = BikeStatusEnum.MONITOR_ALLBIKE_STATUS.getBikeStatus()+model;
-		   String motitorValue = BikeStatusEnum.MONITOR_BIKE_STATUS.getBikeStatus()+imei;
-		   redisUtil.hset(monitorAllBikeKey, imei, motitorValue);
-		   Map<String, String> bikePCMaP = getBikeUpStatus(pcPacketDto);
-		   redisUtil.hmSet(motitorValue, bikePCMaP);
-	   } catch (Exception e) {
-		   logger.error("保存上行pc包到缓存异常异常 header0:"+pcPacketDto.getHeader0()+",header1:"+pcPacketDto.getHeader1()+",imei:"+pcPacketDto.getImei(),e);
-		   throw new IotServiceBizException(IotServiceExceptionEnum.SEND_UP_PC_HTTP_ERROR.getCode(),IotServiceExceptionEnum.SEND_UP_PC_HTTP_ERROR.getMsg());
-		}
-	   
-   }
-   
-   private Map<String,String> getBikeUpStatus(PCPacketDto pcPacketDto){
-	   Map<String, String> bikePGMap = new HashMap<String, String>();
-	   String upPCType = "CMD_"+pcPacketDto.getCmd()+" _SEQ_"+pcPacketDto.getSeq()+"_para_"+pcPacketDto.getParam();
-	   bikePGMap.put(BikeStatusEnum.IMEI.getBikeStatus(), pcPacketDto.getImei()+"");
-	   bikePGMap.put(BikeStatusEnum.UP_PC_LASTTIME.getBikeStatus(), DateUtil.format(new Date(), DateUtil.DEFAULT_PATTERN));
-	   bikePGMap.put(BikeStatusEnum.UP_PC_TYPE.getBikeStatus(), upPCType);
-	   return bikePGMap;
-   }
-   
-   public void saveDownPCInfo(PCPacketDto pcPacketDto){
-	   try {
-		   RedisUtil redisUtil = new RedisUtil();
-		   String imei = String.valueOf(pcPacketDto.getImei());
-		   String model = imei.substring(imei.length()-1);
-		   String monitorAllBikeKey = BikeStatusEnum.MONITOR_ALLBIKE_STATUS.getBikeStatus()+model;
-		   String motitorValue = BikeStatusEnum.MONITOR_BIKE_STATUS.getBikeStatus()+imei;
-		   redisUtil.hset(monitorAllBikeKey, imei, motitorValue);
-		   Map<String, String> bikePCMaP = getBikeDownStatus(pcPacketDto);
-		   redisUtil.hmSet(motitorValue, bikePCMaP);
-		} catch (Exception e) {
-			logger.error("保存下行pc包到缓存异常异常 header0:"+pcPacketDto.getHeader0()+",header1:"+pcPacketDto.getHeader1()+",imei:"+pcPacketDto.getImei(),e);
-			throw new IotServiceBizException(IotServiceExceptionEnum.SAVE_DOWN_PC_REDIS_ERROR.getCode(),IotServiceExceptionEnum.SAVE_DOWN_PC_REDIS_ERROR.getMsg());
-
-		}
-	  
-   }
-   
-   private Map<String,String> getBikeDownStatus(PCPacketDto pcPacketDto){
-	   Map<String, String> bikePGMap = new HashMap<String, String>();
-	   String upPCType = "CMD_"+pcPacketDto.getCmd()+" _SEQ_"+pcPacketDto.getSeq()+"_para_"+pcPacketDto.getParam();
-	   bikePGMap.put(BikeStatusEnum.IMEI.getBikeStatus(), pcPacketDto.getImei()+"");
-	   bikePGMap.put(BikeStatusEnum.DOWN_PC_LASTTIME.getBikeStatus(), DateUtil.format(new Date(), DateUtil.DEFAULT_PATTERN));
-	   bikePGMap.put(BikeStatusEnum.DOWN_PC_TYPE.getBikeStatus(), upPCType);
-	   return bikePGMap;
-   }
-   
-   public PCReqDto buildPCReqDto(PCPacketDto pcPacketDto){
+   public PCReqDto buildPCReqDto(LedPCPacketDto pcPacketDto){
 	   PCReqDto pcReqDto = new PCReqDto();
 	   pcReqDto.setPcImei(pcPacketDto.getImei());
 	   pcReqDto.setPcCmd(pcPacketDto.getCmd());

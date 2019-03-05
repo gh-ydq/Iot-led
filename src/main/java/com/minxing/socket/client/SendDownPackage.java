@@ -54,13 +54,14 @@ public class SendDownPackage {
 	public static void sendDownCMD(byte[] bytes,ChannelHandlerContext ctx){
 		char header0 = ByteArrayToNumber.byteToChar(bytes[0]);
 		char header1 = ByteArrayToNumber.byteToChar(bytes[1]);
-		int imei = ByteArrayToNumber.byteArrayToInt(bytes, 2);
-		byte seq = bytes[6];
-		byte cmd = bytes[7];
-		byte[] params =  new byte[bytes.length-8];
-		System.arraycopy(bytes, 8, params, 0, bytes.length-8);
+		String header2 = ByteArrayToNumber.bytesToString(bytes,2,2);
+		int imei = ByteArrayToNumber.byteArrayToInt(bytes, 4);
+		byte seq = bytes[8];
+		byte cmd = bytes[9];
+		byte[] params =  new byte[bytes.length-10];
+		System.arraycopy(bytes, 10, params, 0, bytes.length-10);
 		String param = ByteArrayToNumber.bytesToString(params);
-		logger.info("发送下行命令包 header0="+header0+",header1="+header1+",ime1="+imei+",seq="+seq+",cmd="+cmd+",param="+param);
+		logger.info("发送下行命令包 header0="+header0+",header1="+header1+",header2="+header2+",ime1="+imei+",seq="+seq+",cmd="+cmd+",param="+param);
 		ByteBuf encoded = ctx.alloc().buffer(bytes.length);  
         encoded.writeBytes(bytes);  
         ctx.write(encoded);  

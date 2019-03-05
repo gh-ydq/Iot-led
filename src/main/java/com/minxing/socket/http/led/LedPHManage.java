@@ -3,6 +3,7 @@ package com.minxing.socket.http.led;
 import com.minxing.socket.constants.BikeStatusEnum;
 import com.minxing.socket.dto.gprs.ph.PHPacketDto;
 import com.minxing.socket.dto.http.req.gprs.PHReqDto;
+import com.minxing.socket.dto.led.LedPHPacketDto;
 import com.minxing.socket.exception.IotServiceBizException;
 import com.minxing.socket.exception.IotServiceExceptionEnum;
 import com.minxing.socket.util.DateUtil;
@@ -17,15 +18,15 @@ import java.util.Map;
 
 public class LedPHManage {
 	private Logger logger = LoggerFactory.getLogger(LedPHManage.class);
-    private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/heart";
-//  private static final String url = "http://192.168.0.101/v1.0/bikeProtocol/heart";
+//    private static final String url = "http://api.qdigo.net/v1.0/bikeProtocol/heart";
+  private static final String url = "http://127.0.0.1:8090/lightUpcmd/save";
    
-   public void sendMsg(PHPacketDto phPacketDto){
+   public void sendMsg(LedPHPacketDto lePphPacketDto){
 	   try {
-		   PHReqDto phReqDto = buildPHReqDto(phPacketDto);
-		   HttpClient.sendMsg(url, phReqDto);
+//		   PHReqDto phReqDto = buildPHReqDto(phPacketDto);
+		   HttpClient.sendMsg(url, lePphPacketDto);
 		} catch (Exception e) {
-			logger.error("发送上行PH包http请求异常 header0:"+phPacketDto.getHeader0()+",header1:"+phPacketDto.getHeader1()+",imei:"+phPacketDto.getImei(),e);
+			logger.error("发送上行PH包http请求异常 header0:"+lePphPacketDto.getHeader0()+",header1:"+lePphPacketDto.getHeader1()+",header2:"+lePphPacketDto.getBusiType()+",imei:"+lePphPacketDto.getImei(),e);
 			throw new IotServiceBizException(IotServiceExceptionEnum.SEND_UP_PH_HTTP_ERROR.getCode(),IotServiceExceptionEnum.SEND_UP_PH_HTTP_ERROR.getMsg());
 		}
 	  

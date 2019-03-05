@@ -2,6 +2,7 @@ package com.minxing.socket.service.bike;
 
 import java.util.Date;
 
+import com.minxing.socket.dto.PackageServiceDto;
 import com.minxing.socket.util.ByteArrayToNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,9 @@ import com.minxing.socket.util.DateUtil;
 public class ParsePHPackageService extends ParsePackageServiceImpl{
 	private Logger logger = LoggerFactory.getLogger(ParsePHPackageService.class);
 	@Override
-	public  PHPacketDto parseUpBytes(byte[] bytes,char header0,char header1,int imei){
+	public  PHPacketDto parseUpBytes(PackageServiceDto packageServiceDto){
 		logger.info("PH system:"+DateUtil.format(new Date(), DateUtil.YMDHMS_PATTERN));
+		byte[] bytes = packageServiceDto.getPackageBytes();
 		byte seq = bytes[6];
 		long imsi = ByteArrayToNumber.bytesToLong(bytes, 7);
 		byte powerSwitch = bytes[15];
@@ -28,7 +30,8 @@ public class ParsePHPackageService extends ParsePackageServiceImpl{
 		int usedPowerNum  = ByteArrayToNumber.byteArrayToInt(bytes,23);
 		short activeLightNum = ByteArrayToNumber.byteArrayToShort(bytes,27);
 		int lightUsedHour  = ByteArrayToNumber.byteArrayToInt(bytes,29);
-		PHPacketDto phPacketDto = buildPHPacketDto(bytes.length,header0, header1, imei, seq, imsi,
+		PHPacketDto phPacketDto = buildPHPacketDto(bytes.length,packageServiceDto.getHeader0(), packageServiceDto.getHeader1()
+				, packageServiceDto.getImei(), seq, imsi,
 				powerSwitch, chargeStatus, batteryVoltage, activeTime, usedPowerNum,activeLightNum,lightUsedHour);
 		PHManage phManage = new PHManage();
 		phManage.sendMsg(phPacketDto);
